@@ -6,6 +6,8 @@ set signcolumn=yes
 set updatetime=50
 set cursorline
 set cursorlineopt=number
+set foldmethod=syntax
+set foldlevelstart=1
 
 call plug#begin()
 Plug 'preservim/nerdtree' 
@@ -21,21 +23,40 @@ Plug 'majutsushi/tagbar'
 Plug 'bfrg/vim-cpp-modern'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'neovim/nvim-lspconfig'
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
- " Remap for rename current word
+" Use fontawesome icons as signs
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = '>'
+let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_removed_first_line = '^'
+let g:gitgutter_sign_modified_removed = '<'
+
+" Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 
-" use <tab> for trigger completion and navigate to the next complete item
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <C-Space> coc#refresh()
 
-inoremap <silent><expr> <Tab>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+" use <Tab> to select the first/selected autocomplete suggestion
+inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
+
+" Remap for rename current word
+nmap <F2> <Plug>(coc-rename)
+
+
+" use <tab> for trigger completion and navigate to the next complete item
+" function! CheckBackspace() abort
+  " let col = col('.') - 1
+  " return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+"
+" inoremap <silent><expr> <Tab>
+      " \ coc#pum#visible() ? coc#pum#next(1) :
+      " \ CheckBackspace() ? "\<Tab>" :
+      " \ coc#refresh()
+
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -107,6 +128,8 @@ let g:clang_format#style_options = {
 			\ "UseTab" : "Never"}
 
 nnoremap <silent> <F3> <Esc>:ClangFormat<CR>
+
+nnoremap <silent> <F4> <Esc>:call CocActionAsync('format')<CR>
 
 set path+=/usr/include/c++/12/
 set path+=/opt/ros/humble/include/
