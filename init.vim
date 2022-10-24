@@ -1,5 +1,11 @@
 set nu rnu ma
 set mouse=a
+set nohlsearch
+set scrolloff=12
+set signcolumn=yes
+set updatetime=50
+set cursorline
+set cursorlineopt=number
 
 call plug#begin()
 Plug 'preservim/nerdtree' 
@@ -57,9 +63,10 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline_theme='gruvbox'
 
-let g:gruvbox_italic=1
-let g:gruvbox_contrast_dark="hard"
 colorscheme gruvbox
+highlight Normal guibg=none
+" let g:gruvbox_italic=1
+" let g:gruvbox_contrast_dark="hard"
 
 nmap <F8> :TagbarOpenAutoClose<CR>
 
